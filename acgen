@@ -59,6 +59,24 @@ _arguments \
     '*:input files:_files'
 __ZSH__
   },
+
+  'fish' => sub {
+    my $conf = shift;
+    my $name = $conf->{name};
+    my $statements = [];
+    for my $flag (@{$conf->{flags}}) {
+      my $complete = [];
+      push @$complete, "complete", "-c", $name;
+      push @$complete, "-s", $flag->{short} if defined $flag->{short};
+      push @$complete, "-l", $flag->{long} if defined $flag->{long};
+      my $description = $flag->{description};
+      $description =~ s/'/\\'/g;
+      $description =~ s/^|$/'/g;
+      push @$complete, "-d", $description;
+      push @$statements, join(' ', @$complete) . "\n";
+    }
+    return join '', @$statements;
+  },
 };
 
 Getopt::Long::GetOptions(
