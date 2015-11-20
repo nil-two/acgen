@@ -77,6 +77,43 @@ __ZSH__
     }
     return join '', @$statements;
   },
+
+  'yash' => sub {
+    my $conf = shift;
+    my $name = $conf->{name};
+    my $opts = [];
+    for my $flag (@{$conf->{flags}}) {
+      my $opt = [];
+      if (defined $flag->{short}) {
+        push @$opt, $flag->{short} . (defined $flag->{arg}? ':': '');
+      }
+      if (defined $flag->{long}) {
+        push @$opt, $flag->{long} . (defined $flag->{arg}? ':': '');
+      }
+      my $description = $flag->{description};
+      $description =~ s/\\/\\\\/g;
+      $description =~ s/"/\\"/g;
+      push @$opts, "\"@{[join ' ', @$opt]}; $description\"";
+    }
+    return <<__YASH__;
+function completion/$name {
+	typeset OPTIONS ARGOPT PREFIX
+	OPTIONS=(
+@{[join "\n", map { "\t$_" } @$opts]}
+	)
+	command -f completion//parseoptions -es
+	case \$ARGOPT in
+	(-)
+		command -f completion//completeoptions
+		;;
+	(*)
+		complete -f
+		;;
+	esac
+}
+# vim: set ft=sh ts=8 sts=8 sw=8 noet:
+__YASH__
+  },
 };
 
 Getopt::Long::GetOptions(
