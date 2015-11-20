@@ -6,7 +6,7 @@ use YAML::Syck ();
 use Getopt::Long qw(:config posix_default no_ignore_case bundling);
 
 my $generator = +{
-  'bash' => sub {
+  bash => sub {
     my $conf = shift;
     my $name = $conf->{name};
     my $opts = [];
@@ -36,7 +36,7 @@ complete -F _$name $name
 __BASH__
   },
 
-  'zsh' => sub {
+  zsh => sub {
     my $conf = shift;
     my $name = $conf->{name};
     my $propaties = [];
@@ -60,7 +60,7 @@ _arguments \
 __ZSH__
   },
 
-  'fish' => sub {
+  fish => sub {
     my $conf = shift;
     my $name = $conf->{name};
     my $statements = [];
@@ -78,7 +78,7 @@ __ZSH__
     return join '', @$statements;
   },
 
-  'yash' => sub {
+  yash => sub {
     my $conf = shift;
     my $name = $conf->{name};
     my $opts = [];
