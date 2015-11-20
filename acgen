@@ -6,6 +6,35 @@ use YAML::Syck ();
 use Getopt::Long qw(:config posix_default no_ignore_case bundling);
 
 my $generator = +{
+  'bash' => sub {
+    my $conf = shift;
+    my $name = $conf->{name};
+    my $opts = [];
+    for my $flag (@{$conf->{flags}}) {
+      next unless defined $flag->{long};
+      my $opt = '--' . $flag->{long} . (defined $flag->{arg}? '=': '');
+      push @$opts, $opt;
+    }
+    return <<__BASH__;
+_$name()
+{
+  local cur="\${COMP_WORDS[COMP_CWORD]}"
+  local opts="
+@{[join "\n", map { "    $_" } @$opts]}
+  "
+  case "\$cur" in
+    -*)
+      COMPREPLY=( \$(compgen -W "\$opts" -- "\$cur") )
+      ;;
+    *)
+      _filedir
+      ;;
+  esac
+  [[ \${COMPREPLY[0]} == *= ]] && compopt -o nospace
+}
+complete -F _$name $name
+__BASH__
+  },
 };
 
 Getopt::Long::GetOptions(
