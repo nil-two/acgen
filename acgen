@@ -35,6 +35,30 @@ _$name()
 complete -F _$name $name
 __BASH__
   },
+
+  'zsh' => sub {
+    my $conf = shift;
+    my $name = $conf->{name};
+    my $propaties = [];
+    for my $flag (@{$conf->{flags}}) {
+      my $opts = [];
+      push @$opts, "-$flag->{short}" if defined $flag->{short};
+      push @$opts, "--$flag->{long}" if defined $flag->{long};
+      my $exclusive = join(' ', @$opts);
+      my $options = ($#$opts < 1)? $opts->[0]: '{' . join(',', @$opts) . '}';
+      my $description = $flag->{description};
+      $description =~ s/\\/\\\\/g;
+      $description =~ s/'/'"'"'/g;
+      my $arguments = (defined $flag->{arg}? ":$flag->{arg}": '');
+      push @$propaties, "'($exclusive)'$options'[$description]$arguments'";
+    }
+    return <<__ZSH__;
+#compdef $name
+_arguments \
+@{[join "\n", map { "    $_ \\" } @$propaties]}
+    '*:input files:_files'
+__ZSH__
+  },
 };
 
 Getopt::Long::GetOptions(
