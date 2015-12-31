@@ -4,14 +4,16 @@ import (
 	"io"
 )
 
+type Flag struct {
+	Short       []string
+	Long        []string
+	Arg         string
+	Description string
+}
+
 type Config struct {
 	Name  string
-	Flags []struct {
-		Short       []string
-		Long        []string
-		Arg         string
-		Description string
-	}
+	Flags []Flag
 }
 
 type Generator func(w io.Writer, c *Config) error
