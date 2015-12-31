@@ -90,10 +90,8 @@ func main() {
 		os.Exit(2)
 	}
 
-	code, err := Generators[*outputType].Generate(conf)
-	if err != nil {
+	if err = Generators[*outputType](os.Stdout, conf); err != nil {
 		printErr(err)
 		os.Exit(1)
 	}
-	fmt.Print(code)
 }

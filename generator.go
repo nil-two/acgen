@@ -1,5 +1,9 @@
 package main
 
+import (
+	"io"
+)
+
 type Config struct {
 	Name  string
 	Flags []struct {
@@ -10,8 +14,6 @@ type Config struct {
 	}
 }
 
-type Generator interface {
-	Generate(c *Config) (code string, err error)
-}
+type Generator func(w io.Writer, c *Config) error
 
 var Generators = make(map[string]Generator)
