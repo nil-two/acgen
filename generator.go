@@ -1,6 +1,13 @@
 package main
 
 type Config struct {
+	Name  string
+	Flags []struct {
+		Short       []string
+		Long        []string
+		Arg         string
+		Description string
+	}
 }
 
 type Generator interface {
