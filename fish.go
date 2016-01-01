@@ -21,15 +21,15 @@ type Fish struct {
 func NewFish(c *Command) (f *Fish, err error) {
 	f = new(Fish)
 	for _, flag := range c.Flags {
-		options := []string{"complete", "-c", toFishString(c.Name)}
+		opts := []string{"complete", "-c", toFishString(c.Name)}
 		for _, short := range flag.Short {
-			options = append(options, "-s", toFishString(short))
+			opts = append(opts, "-s", toFishString(short))
 		}
 		for _, long := range flag.Long {
-			options = append(options, "-l", toFishString(long))
+			opts = append(opts, "-l", toFishString(long))
 		}
-		options = append(options, "-d", toFishString(flag.Description))
-		statement := strings.Join(options, " ")
+		opts = append(opts, "-d", toFishString(flag.Description))
+		statement := strings.Join(opts, " ")
 		f.Statements = append(f.Statements, statement)
 	}
 	return f, nil
