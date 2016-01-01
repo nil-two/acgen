@@ -2,6 +2,7 @@ package main
 
 import (
 	"io"
+	"strings"
 	"text/template"
 )
 
@@ -19,7 +20,7 @@ func NewBash(c *Config) (b *Bash, err error) {
 	b.Name = c.Name
 	for _, flag := range c.Flags {
 		for _, long := range flag.Long {
-			opt := "--" + long
+			opt := "--" + strings.Replace(long, `'`, `'"'"'`, -1)
 			if flag.Arg != "" {
 				opt += "="
 			}
