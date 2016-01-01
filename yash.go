@@ -29,6 +29,7 @@ func toYashOpt(f *Flag) string {
 	}
 
 	description := f.Description
+	description = strings.Replace(description, `'`, `'"'"'`, -1)
 
 	return fmt.Sprintf("'%s; %s'",
 		strings.Join(opts, " "), description)
