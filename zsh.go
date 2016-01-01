@@ -11,6 +11,10 @@ func init() {
 	Generators["zsh"] = GenerateZshCompletion
 }
 
+func escapeZshString(s string) string {
+	return strings.Replace(s, `'`, `'"'"'`, -1)
+}
+
 func toZshPropaty(f *Flag) string {
 	opts := make([]string, 0, len(f.Short)+len(f.Long))
 	for _, short := range f.Short {
