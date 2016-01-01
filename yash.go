@@ -11,6 +11,10 @@ func init() {
 	Generators["yash"] = GenerateYashCompletion
 }
 
+func escapeYashString(s string) string {
+	return strings.Replace(s, `'`, `'"'"'`, -1)
+}
+
 func toYashOpt(f *Flag) string {
 	var opts []string
 	for _, short := range f.Short {
