@@ -15,12 +15,16 @@ type Bash struct {
 	Opts []string
 }
 
+func escapeBashString(s string) string {
+	return strings.Replace(s, `'`, `'"'"'`, -1)
+}
+
 func NewBash(c *Command) (b *Bash, err error) {
 	b = new(Bash)
 	b.Name = c.Name
 	for _, flag := range c.Flags {
 		for _, long := range flag.Long {
-			opt := "--" + strings.Replace(long, `'`, `'"'"'`, -1)
+			opt := "--" + escapeBashString(long)
 			if flag.Arg != "" {
 				opt += "="
 			}
