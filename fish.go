@@ -14,7 +14,7 @@ type Fish struct {
 	Statements []string
 }
 
-func NewFish(c *Config) (f *Fish, err error) {
+func NewFish(c *Command) (f *Fish, err error) {
 	f = new(Fish)
 	for _, flag := range c.Flags {
 		options := []string{"complete", "-c", c.Name}
@@ -35,7 +35,7 @@ var FishCompletionTemplateText = `
 {{range .Statements}}{{.}}
 {{end}}`[1:]
 
-func GenerateFishCompletion(w io.Writer, c *Config) error {
+func GenerateFishCompletion(w io.Writer, c *Command) error {
 	tmpl, err := template.New("fish").Parse(FishCompletionTemplateText)
 	if err != nil {
 		return err

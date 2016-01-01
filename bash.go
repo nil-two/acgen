@@ -15,7 +15,7 @@ type Bash struct {
 	Opts []string
 }
 
-func NewBash(c *Config) (b *Bash, err error) {
+func NewBash(c *Command) (b *Bash, err error) {
 	b = new(Bash)
 	b.Name = c.Name
 	for _, flag := range c.Flags {
@@ -50,7 +50,7 @@ _{{.Name}}()
 complete -F _{{.Name}} {{.Name}}
 `[1:]
 
-func GenerateBashCompletion(w io.Writer, c *Config) error {
+func GenerateBashCompletion(w io.Writer, c *Command) error {
 	tmpl, err := template.New("bash").Parse(BashCompletionTemplateText)
 	if err != nil {
 		return err

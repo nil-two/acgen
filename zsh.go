@@ -43,7 +43,7 @@ type Zsh struct {
 	Propaties []string
 }
 
-func NewZsh(c *Config) (z *Zsh, err error) {
+func NewZsh(c *Command) (z *Zsh, err error) {
 	z = new(Zsh)
 	z.Name = c.Name
 	z.Propaties = make([]string, 0, len(c.Flags))
@@ -60,7 +60,7 @@ _arguments \{{range .Propaties}}
     '*:input files:_files'
 `[1:]
 
-func GenerateZshCompletion(w io.Writer, c *Config) error {
+func GenerateZshCompletion(w io.Writer, c *Command) error {
 	tmpl, err := template.New("zsh").Parse(ZshCompletionTemplateText)
 	if err != nil {
 		return err

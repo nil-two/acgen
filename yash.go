@@ -40,7 +40,7 @@ type Yash struct {
 	Opts []string
 }
 
-func NewYash(c *Config) (y *Yash, err error) {
+func NewYash(c *Command) (y *Yash, err error) {
 	y = new(Yash)
 	y.Name = c.Name
 	for _, flag := range c.Flags {
@@ -68,7 +68,7 @@ function completion/{{.Name}} {
 # vim: set ft=sh ts=8 sts=8 sw=8 noet:
 `[1:]
 
-func GenerateYashCompletion(w io.Writer, c *Config) error {
+func GenerateYashCompletion(w io.Writer, c *Command) error {
 	tmpl, err := template.New("yash").Parse(YashCompletionTemplateText)
 	if err != nil {
 		return err

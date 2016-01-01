@@ -77,20 +77,20 @@ func main() {
 	}
 
 	file := flag.Arg(0)
-	rawConf, err := ioutil.ReadFile(file)
+	conf, err := ioutil.ReadFile(file)
 	if err != nil {
 		printErr(err)
 		guideToHelp()
 		os.Exit(2)
 	}
-	conf := &Config{}
-	if err = yaml.Unmarshal(rawConf, conf); err != nil {
+	command := &Command{}
+	if err = yaml.Unmarshal(conf, command); err != nil {
 		printErr(err)
 		guideToHelp()
 		os.Exit(2)
 	}
 
-	if err = Generators[*outputType](os.Stdout, conf); err != nil {
+	if err = Generators[*outputType](os.Stdout, command); err != nil {
 		printErr(err)
 		os.Exit(1)
 	}

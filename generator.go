@@ -11,11 +11,11 @@ type Flag struct {
 	Description string
 }
 
-type Config struct {
+type Command struct {
 	Name  string
 	Flags []Flag
 }
 
-type Generator func(w io.Writer, c *Config) error
+type Generator func(w io.Writer, c *Command) error
 
 var Generators = make(map[string]Generator)
