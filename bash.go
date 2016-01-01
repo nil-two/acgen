@@ -33,9 +33,9 @@ var BashCompletionTemplateText = `
 _{{.Name}}()
 {
   local cur="${COMP_WORDS[COMP_CWORD]}"
-  local opts="{{range .Opts}}
+  local opts='{{range .Opts}}
     {{.}}{{end}}
-  "
+  '
   case "$cur" in
     -*)
       COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
