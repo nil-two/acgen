@@ -18,21 +18,21 @@ func escapeZshString(s string) string {
 func toZshPropaty(f *Flag) string {
 	opts := make([]string, 0, len(f.Short)+len(f.Long))
 	for _, short := range f.Short {
-		opts = append(opts, "-"+short)
+		opts = append(opts, "-"+escapeZshString(short))
 	}
 	for _, long := range f.Long {
-		opts = append(opts, "--"+long)
+		opts = append(opts, "--"+escapeZshString(long))
 	}
 
 	exclusive := strings.Join(opts, " ")
 	candidate := opts[0]
 	if len(opts) > 1 {
-		candidate = "{" + strings.Join(opts, ",") + "}"
+		candidate = "{'" + strings.Join(opts, "','") + "'}"
 	}
-	description := f.Description
+	description := escapeZshString(f.Description)
 	argument := ""
 	if f.Arg != "" {
-		argument = ":" + f.Arg
+		argument = ":" + escapeZshString(f.Arg)
 	}
 	return fmt.Sprintf("'(%s)'%s'[%s]%s'",
 		exclusive, candidate, description, argument)
