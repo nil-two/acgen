@@ -44,7 +44,7 @@ func NewYash(c *Command) (y *Yash, err error) {
 	y = new(Yash)
 	y.Name = c.Name
 	for _, flag := range c.Flags {
-		y.Opts = append(y.Opts, toYashOpt(&flag))
+		y.Opts = append(y.Opts, toYashOpt(flag))
 	}
 	return y, nil
 }

@@ -13,7 +13,7 @@ type Flag struct {
 
 type Command struct {
 	Name  string
-	Flags []Flag
+	Flags []*Flag
 }
 
 type Generator func(w io.Writer, c *Command) error

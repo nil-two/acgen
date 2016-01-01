@@ -48,7 +48,7 @@ func NewZsh(c *Command) (z *Zsh, err error) {
 	z.Name = c.Name
 	z.Propaties = make([]string, 0, len(c.Flags))
 	for _, flag := range c.Flags {
-		z.Propaties = append(z.Propaties, toZshPropaty(&flag))
+		z.Propaties = append(z.Propaties, toZshPropaty(flag))
 	}
 	return z, nil
 }
