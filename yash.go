@@ -18,22 +18,21 @@ func escapeYashString(s string) string {
 func toYashOpt(f *Flag) string {
 	var opts []string
 	for _, short := range f.Short {
-		opt := short
+		opt := escapeYashString(short)
 		if f.Arg != "" {
 			opt += ":"
 		}
 		opts = append(opts, opt)
 	}
 	for _, long := range f.Long {
-		opt := "--" + long
+		opt := "--" + escapeYashString(long)
 		if f.Arg != "" {
 			opt += ":"
 		}
 		opts = append(opts, opt)
 	}
 
-	description := f.Description
-	description = strings.Replace(description, `'`, `'"'"'`, -1)
+	description := escapeYashString(f.Description)
 
 	return fmt.Sprintf("'%s; %s'",
 		strings.Join(opts, " "), description)
