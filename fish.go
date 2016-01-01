@@ -10,6 +10,10 @@ func init() {
 	Generators["fish"] = GenerateFishCompletion
 }
 
+func toFishString(s string) string {
+	return `'` + strings.Replace(s, `'`, `'"'"'`, -1) + `'`
+}
+
 type Fish struct {
 	Statements []string
 }
@@ -17,14 +21,14 @@ type Fish struct {
 func NewFish(c *Command) (f *Fish, err error) {
 	f = new(Fish)
 	for _, flag := range c.Flags {
-		options := []string{"complete", "-c", c.Name}
+		options := []string{"complete", "-c", toFishString(c.Name)}
 		for _, short := range flag.Short {
-			options = append(options, "-s", short)
+			options = append(options, "-s", toFishString(short))
 		}
 		for _, long := range flag.Long {
-			options = append(options, "-l", long)
+			options = append(options, "-l", toFishString(long))
 		}
-		options = append(options, "-d", "'"+flag.Description+"'")
+		options = append(options, "-d", toFishString(flag.Description))
 		statement := strings.Join(options, " ")
 		f.Statements = append(f.Statements, statement)
 	}
