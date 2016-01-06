@@ -25,7 +25,7 @@ func toZshPropaty(f *Flag) string {
 	}
 
 	exclusive := strings.Join(opts, " ")
-	candidate := opts[0]
+	candidate := "'" + opts[0] + "'"
 	if len(opts) > 1 {
 		candidate = "{'" + strings.Join(opts, "','") + "'}"
 	}
