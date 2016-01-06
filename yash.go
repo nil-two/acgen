@@ -56,7 +56,7 @@ var YashCompletionTemplateText = `
 function completion/{{.Name}} {
 	typeset OPTIONS ARGOPT PREFIX
 	OPTIONS=({{range .Opts}}
-		{{.}}{{end}}
+	{{.}}{{end}}
 	)
 	command -f completion//parseoptions -es
 	case $ARGOPT in
