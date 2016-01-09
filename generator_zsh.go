@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	Generators["zsh"] = GenerateZshCompletion
+	RegisterGenerator("zsh", GenerateZshCompletion)
 }
 
 func escapeZshString(s string) string {

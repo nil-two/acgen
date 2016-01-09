@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	Generators["yash"] = GenerateYashCompletion
+	RegisterGenerator("yash", GenerateYashCompletion)
 }
 
 func escapeYashString(s string) string {

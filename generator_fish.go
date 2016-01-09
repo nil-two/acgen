@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-	Generators["fish"] = GenerateFishCompletion
+	RegisterGenerator("fish", GenerateFishCompletion)
 }
 
 func toFishString(s string) string {

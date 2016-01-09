@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-	Generators["bash"] = GenerateBashCompletion
+	RegisterGenerator("bash", GenerateBashCompletion)
 }
 
 type Bash struct {
