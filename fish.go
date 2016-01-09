@@ -1,4 +1,4 @@
-package main
+package acgen
 
 import (
 	"io"

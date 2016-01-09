@@ -7,6 +7,7 @@ import (
 
 	"gopkg.in/yaml.v2"
 
+	"github.com/kusabashira/acgen"
 	"github.com/ogier/pflag"
 )
 
@@ -70,7 +71,7 @@ func main() {
 		printErr(fmt.Errorf("no specify TYPE"))
 		guideToHelp()
 		os.Exit(2)
-	case Generators[*outputType] == nil:
+	case acgen.Generators[*outputType] == nil:
 		printErr(fmt.Errorf("%s: is not supported", *outputType))
 		guideToHelp()
 		os.Exit(2)
@@ -83,14 +84,14 @@ func main() {
 		guideToHelp()
 		os.Exit(2)
 	}
-	command := &Command{}
+	command := &acgen.Command{}
 	if err = yaml.Unmarshal(conf, command); err != nil {
 		printErr(err)
 		guideToHelp()
 		os.Exit(2)
 	}
 
-	if err = Generators[*outputType](os.Stdout, command); err != nil {
+	if err = acgen.Generators[*outputType](os.Stdout, command); err != nil {
 		printErr(err)
 		os.Exit(1)
 	}
