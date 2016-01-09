@@ -71,12 +71,14 @@ func main() {
 		printErr(fmt.Errorf("no specify TYPE"))
 		guideToHelp()
 		os.Exit(2)
-	case acgen.Generators[*outputType] == nil:
-		printErr(fmt.Errorf("%s: is not supported", *outputType))
+	}
+
+	generator, err := acgen.LookGenerator(*outputType)
+	if err != nil {
+		printErr(err)
 		guideToHelp()
 		os.Exit(2)
 	}
-
 	file := flag.Arg(0)
 	conf, err := ioutil.ReadFile(file)
 	if err != nil {
@@ -91,7 +93,7 @@ func main() {
 		os.Exit(2)
 	}
 
-	if err = acgen.Generators[*outputType](os.Stdout, command); err != nil {
+	if err = generator(os.Stdout, command); err != nil {
 		printErr(err)
 		os.Exit(1)
 	}
