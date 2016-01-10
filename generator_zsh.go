@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	RegisterGenerator("zsh", GenerateZshCompletion)
+	RegisterGenerator("zsh", generateZshCompletion)
 }
 
 func escapeZshString(s string) string {
@@ -38,13 +38,13 @@ func toZshPropaty(f *Flag) string {
 		exclusive, candidate, description, argument)
 }
 
-type Zsh struct {
+type zsh struct {
 	Name      string
 	Propaties []string
 }
 
-func NewZsh(c *Command) (z *Zsh, err error) {
-	z = new(Zsh)
+func newZsh(c *Command) (z *zsh, err error) {
+	z = new(zsh)
 	z.Name = c.Name
 	z.Propaties = make([]string, 0, len(c.Flags))
 	for _, flag := range c.Flags {
@@ -53,19 +53,19 @@ func NewZsh(c *Command) (z *Zsh, err error) {
 	return z, nil
 }
 
-var ZshCompletionTemplateText = `
+var zshCompletionTemplateText = `
 #compdef {{.Name}}
 _arguments \{{range .Propaties}}
     {{.}} \{{end}}
     '*:input files:_files'
 `[1:]
 
-func GenerateZshCompletion(w io.Writer, c *Command) error {
-	tmpl, err := template.New("zsh").Parse(ZshCompletionTemplateText)
+func generateZshCompletion(w io.Writer, c *Command) error {
+	tmpl, err := template.New("zsh").Parse(zshCompletionTemplateText)
 	if err != nil {
 		return err
 	}
-	z, err := NewZsh(c)
+	z, err := newZsh(c)
 	if err != nil {
 		return err
 	}

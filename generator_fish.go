@@ -7,19 +7,19 @@ import (
 )
 
 func init() {
-	RegisterGenerator("fish", GenerateFishCompletion)
+	RegisterGenerator("fish", generateFishCompletion)
 }
 
 func toFishString(s string) string {
 	return `'` + strings.Replace(s, `'`, `'"'"'`, -1) + `'`
 }
 
-type Fish struct {
+type fish struct {
 	Statements []string
 }
 
-func NewFish(c *Command) (f *Fish, err error) {
-	f = new(Fish)
+func newFish(c *Command) (f *fish, err error) {
+	f = new(fish)
 	for _, flag := range c.Flags {
 		opts := []string{"complete", "-c", toFishString(c.Name)}
 		for _, short := range flag.Short {
@@ -35,16 +35,16 @@ func NewFish(c *Command) (f *Fish, err error) {
 	return f, nil
 }
 
-var FishCompletionTemplateText = `
+var fishCompletionTemplateText = `
 {{range .Statements}}{{.}}
 {{end}}`[1:]
 
-func GenerateFishCompletion(w io.Writer, c *Command) error {
-	tmpl, err := template.New("fish").Parse(FishCompletionTemplateText)
+func generateFishCompletion(w io.Writer, c *Command) error {
+	tmpl, err := template.New("fish").Parse(fishCompletionTemplateText)
 	if err != nil {
 		return err
 	}
-	f, err := NewFish(c)
+	f, err := newFish(c)
 	if err != nil {
 		return err
 	}

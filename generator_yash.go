@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	RegisterGenerator("yash", GenerateYashCompletion)
+	RegisterGenerator("yash", generateYashCompletion)
 }
 
 func escapeYashString(s string) string {
@@ -38,13 +38,13 @@ func toYashOpt(f *Flag) string {
 		strings.Join(opts, " "), description)
 }
 
-type Yash struct {
+type yash struct {
 	Name string
 	Opts []string
 }
 
-func NewYash(c *Command) (y *Yash, err error) {
-	y = new(Yash)
+func newYash(c *Command) (y *yash, err error) {
+	y = new(yash)
 	y.Name = c.Name
 	for _, flag := range c.Flags {
 		y.Opts = append(y.Opts, toYashOpt(flag))
@@ -52,7 +52,7 @@ func NewYash(c *Command) (y *Yash, err error) {
 	return y, nil
 }
 
-var YashCompletionTemplateText = `
+var yashCompletionTemplateText = `
 function completion/{{.Name}} {
 	typeset OPTIONS ARGOPT PREFIX
 	OPTIONS=({{range .Opts}}
@@ -71,12 +71,12 @@ function completion/{{.Name}} {
 # vim: set ft=sh ts=8 sts=8 sw=8 noet:
 `[1:]
 
-func GenerateYashCompletion(w io.Writer, c *Command) error {
-	tmpl, err := template.New("yash").Parse(YashCompletionTemplateText)
+func generateYashCompletion(w io.Writer, c *Command) error {
+	tmpl, err := template.New("yash").Parse(yashCompletionTemplateText)
 	if err != nil {
 		return err
 	}
-	y, err := NewYash(c)
+	y, err := newYash(c)
 	if err != nil {
 		return err
 	}

@@ -7,10 +7,10 @@ import (
 )
 
 func init() {
-	RegisterGenerator("bash", GenerateBashCompletion)
+	RegisterGenerator("bash", generateBashCompletion)
 }
 
-type Bash struct {
+type bash struct {
 	Name string
 	Opts []string
 }
@@ -19,8 +19,8 @@ func escapeBashString(s string) string {
 	return strings.Replace(s, `'`, `'"'"'`, -1)
 }
 
-func NewBash(c *Command) (b *Bash, err error) {
-	b = new(Bash)
+func newBash(c *Command) (b *bash, err error) {
+	b = new(bash)
 	b.Name = c.Name
 	for _, flag := range c.Flags {
 		for _, long := range flag.Long {
@@ -34,7 +34,7 @@ func NewBash(c *Command) (b *Bash, err error) {
 	return b, nil
 }
 
-var BashCompletionTemplateText = `
+var bashCompletionTemplateText = `
 _{{.Name}}()
 {
   local cur="${COMP_WORDS[COMP_CWORD]}"
@@ -54,12 +54,12 @@ _{{.Name}}()
 complete -F _{{.Name}} {{.Name}}
 `[1:]
 
-func GenerateBashCompletion(w io.Writer, c *Command) error {
-	tmpl, err := template.New("bash").Parse(BashCompletionTemplateText)
+func generateBashCompletion(w io.Writer, c *Command) error {
+	tmpl, err := template.New("bash").Parse(bashCompletionTemplateText)
 	if err != nil {
 		return err
 	}
-	b, err := NewBash(c)
+	b, err := newBash(c)
 	if err != nil {
 		return err
 	}
