@@ -19,15 +19,15 @@ type Command struct {
 
 type Generator func(w io.Writer, c *Command) error
 
-var Generators = make(map[string]Generator)
+var generators = make(map[string]Generator)
 
 func RegisterGenerator(generatorName string, g Generator) {
-	Generators[generatorName] = g
+	generators[generatorName] = g
 }
 
 func LookGenerator(generatorName string) (g Generator, err error) {
-	if _, ok := Generators[generatorName]; !ok {
+	if _, ok := generators[generatorName]; !ok {
 		return nil, fmt.Errorf("%s: is not supported", generatorName)
 	}
-	return Generators[generatorName], nil
+	return generators[generatorName], nil
 }
