@@ -23,8 +23,9 @@ var (
 
 func printUsage() {
 	fmt.Fprintf(os.Stderr, `
-Usage: %s [OPTION]... FILE
-Generate auto-completions for specifyed TYPE.
+Usage: %s [OPTION]... SOURCE
+Generate auto-completions for specifyed TYPE
+by SOURCE written in YAML.
 
 Options:
   -t, --type=TYPE   output auto-completion for specified TYPE
