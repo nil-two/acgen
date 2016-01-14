@@ -1,6 +1,8 @@
 acgen
 =====
 
+[![Build Status](https://travis-ci.org/kusabashira/acgen.svg?branch=master)](https://travis-ci.org/kusabashira/acgen)
+
 Generate auto-completions.
 
 Source
