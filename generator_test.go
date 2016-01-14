@@ -73,3 +73,24 @@ complete -F _sed sed
 			actual, expect)
 	}
 }
+
+func TestGenerateZshCompletion(t *testing.T) {
+	w := bytes.NewBuffer(make([]byte, 0))
+	if err := generateZshCompletion(w, exampleCommand); err != nil {
+		t.Errorf("generateZshCompletion returns %s, want nil\nsource:\n%s\n",
+			err, dumpCommand(exampleCommand))
+	}
+	expect := `
+#compdef sed
+_arguments \
+    '(-n --quiet --silent)'{'-n','--quiet','--silent'}'[suppress automatic printing of pattern space]' \
+    '(-e --expression)'{'-e','--expression'}'[add the script to the commands to be executed]:script' \
+    '(-f --file)'{'-f','--file'}'[add the contents of script-file to the commands to be executed]:script-file' \
+    '*:input files:_files'
+`[1:]
+	actual := w.String()
+	if actual != expect {
+		t.Errorf("generateZshCompletion returns:\n%s\nwant:\n%s\n",
+			actual, expect)
+	}
+}
