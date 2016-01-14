@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-var exampleCommand = &Command{
+var sed = &Command{
 	Name: "sed",
 	Flags: []*Flag{
 		&Flag{
@@ -49,7 +49,7 @@ var generateTests = []struct {
 }{
 	{
 		generator: generateBashCompletion,
-		command:   exampleCommand,
+		command:   sed,
 		output: `
 _sed()
 {
@@ -75,7 +75,7 @@ complete -F _sed sed
 	},
 	{
 		generator: generateZshCompletion,
-		command:   exampleCommand,
+		command:   sed,
 		output: `
 #compdef sed
 _arguments \
