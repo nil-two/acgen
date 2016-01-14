@@ -3,6 +3,9 @@ package acgen
 import (
 	"bytes"
 	"fmt"
+	"path"
+	"reflect"
+	"runtime"
 	"testing"
 )
 
@@ -39,13 +42,15 @@ func dumpCommand(c *Command) string {
 	return w.String()
 }
 
-func TestGenerateBashCompletion(t *testing.T) {
-	w := bytes.NewBuffer(make([]byte, 0))
-	if err := generateBashCompletion(w, exampleCommand); err != nil {
-		t.Errorf("generateBashCompletion returns %s, want nil\nsource:\n%s\n",
-			err, dumpCommand(exampleCommand))
-	}
-	expect := `
+var generateTests = []struct {
+	generator Generator
+	command   *Command
+	output    string
+}{
+	{
+		generator: generateBashCompletion,
+		command:   exampleCommand,
+		output: `
 _sed()
 {
   local cur="${COMP_WORDS[COMP_CWORD]}"
@@ -66,31 +71,39 @@ _sed()
   [[ ${COMPREPLY[0]} == *= ]] && compopt -o nospace
 }
 complete -F _sed sed
-`[1:]
-	actual := w.String()
-	if actual != expect {
-		t.Errorf("generateBashCompletion returns:\n%s\nwant:\n%s\n",
-			actual, expect)
-	}
-}
-
-func TestGenerateZshCompletion(t *testing.T) {
-	w := bytes.NewBuffer(make([]byte, 0))
-	if err := generateZshCompletion(w, exampleCommand); err != nil {
-		t.Errorf("generateZshCompletion returns %s, want nil\nsource:\n%s\n",
-			err, dumpCommand(exampleCommand))
-	}
-	expect := `
+`[1:],
+	},
+	{
+		generator: generateZshCompletion,
+		command:   exampleCommand,
+		output: `
 #compdef sed
 _arguments \
     '(-n --quiet --silent)'{'-n','--quiet','--silent'}'[suppress automatic printing of pattern space]' \
     '(-e --expression)'{'-e','--expression'}'[add the script to the commands to be executed]:script' \
     '(-f --file)'{'-f','--file'}'[add the contents of script-file to the commands to be executed]:script-file' \
     '*:input files:_files'
-`[1:]
-	actual := w.String()
-	if actual != expect {
-		t.Errorf("generateZshCompletion returns:\n%s\nwant:\n%s\n",
-			actual, expect)
+`[1:],
+	},
+}
+
+func funcName(f interface{}) string {
+	name := runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name()
+	return path.Base(name)
+}
+
+func TestGenerateCompletion(t *testing.T) {
+	for _, test := range generateTests {
+		w := bytes.NewBuffer(make([]byte, 0))
+		if err := test.generator(w, test.command); err != nil {
+			t.Errorf("%s returns %s, want nil\nsource:\n%s\n",
+				funcName(test.generator), err, dumpCommand(test.command))
+		}
+		expect := test.output
+		actual := w.String()
+		if actual != expect {
+			t.Errorf("%s\nreturns:\n%swant:\n%ssource:\n%s",
+				funcName(test.generator), actual, expect, dumpCommand(test.command))
+		}
 	}
 }
