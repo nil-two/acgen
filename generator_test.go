@@ -85,6 +85,15 @@ _arguments \
     '*:input files:_files'
 `[1:],
 	},
+	{
+		generator: generateFishCompletion,
+		command:   sed,
+		output: `
+complete -c 'sed' -s 'n' -l 'quiet' -l 'silent' -d 'suppress automatic printing of pattern space'
+complete -c 'sed' -s 'e' -l 'expression' -d 'add the script to the commands to be executed'
+complete -c 'sed' -s 'f' -l 'file' -d 'add the contents of script-file to the commands to be executed'
+`[1:],
+	},
 }
 
 func funcName(f interface{}) string {
