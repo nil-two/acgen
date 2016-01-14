@@ -5,6 +5,21 @@ acgen
 
 Generate auto-completions.
 
+Usage
+-----
+
+```
+$ acgen [OPTION]... SOURCE
+Generate auto-completions for specifyed TYPE
+by SOURCE written in YAML.
+
+Options:
+  -t, --type=TYPE   output auto-completion for specified TYPE
+                      TYPE=bash|zsh|fish|yash
+  -h, --help        display this help text and exit
+  -v, --version     output version information and exit
+```
+
 Source
 ------
 
