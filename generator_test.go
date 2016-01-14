@@ -94,6 +94,30 @@ complete -c 'sed' -s 'e' -l 'expression' -d 'add the script to the commands to b
 complete -c 'sed' -s 'f' -l 'file' -d 'add the contents of script-file to the commands to be executed'
 `[1:],
 	},
+	{
+		generator: generateYashCompletion,
+		command:   sed,
+		output: `
+function completion/sed {
+	typeset OPTIONS ARGOPT PREFIX
+	OPTIONS=(
+	'n --quiet --silent; suppress automatic printing of pattern space'
+	'e: --expression:; add the script to the commands to be executed'
+	'f: --file:; add the contents of script-file to the commands to be executed'
+	)
+	command -f completion//parseoptions -es
+	case $ARGOPT in
+	(-)
+		command -f completion//completeoptions
+		;;
+	(*)
+		complete -f
+		;;
+	esac
+}
+# vim: set ft=sh ts=8 sts=8 sw=8 noet:
+`[1:],
+	},
 }
 
 func funcName(f interface{}) string {
