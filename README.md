@@ -55,6 +55,27 @@ If this is ommitted, the flag interpreted as no argument flag.
 `description` is a description for flag
 such as `add the script to the ...` for `script`.
 
+### example
+
+```yaml
+# subset of sed
+---
+name: sed
+  - short: ['n']
+    long: ['quiet', 'silent']
+    description: 'suppress automatic printing of pattern space'
+
+  - short: ['e']
+    long: ['expression']
+    arg: 'script'
+    description: 'add the script to the commands to be executed'
+
+  - short: ['f']
+    long: ['file']
+    arg: 'script-file'
+    description: 'add the contents of script-file to the commands to be executed'
+```
+
 License
 -------
 
