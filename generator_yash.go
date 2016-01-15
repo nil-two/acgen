@@ -68,7 +68,6 @@ function completion/{{.Name}} {
 		;;
 	esac
 }
-# vim: set ft=sh ts=8 sts=8 sw=8 noet:
 `[1:]
 
 func generateYashCompletion(w io.Writer, c *Command) error {

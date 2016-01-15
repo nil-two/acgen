@@ -115,7 +115,6 @@ function completion/sed {
 		;;
 	esac
 }
-# vim: set ft=sh ts=8 sts=8 sw=8 noet:
 `[1:],
 	},
 }
