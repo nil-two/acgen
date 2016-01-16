@@ -21,13 +21,13 @@ type Generator func(w io.Writer, c *Command) error
 
 var generators = make(map[string]Generator)
 
-func RegisterGenerator(generatorName string, g Generator) {
-	generators[generatorName] = g
+func RegisterGenerator(name string, g Generator) {
+	generators[name] = g
 }
 
-func LookGenerator(generatorName string) (g Generator, err error) {
-	if _, ok := generators[generatorName]; !ok {
-		return nil, fmt.Errorf("%s: is not supported", generatorName)
+func LookGenerator(name string) (g Generator, err error) {
+	if _, ok := generators[name]; !ok {
+		return nil, fmt.Errorf("%s: is not supported", name)
 	}
-	return generators[generatorName], nil
+	return generators[name], nil
 }
