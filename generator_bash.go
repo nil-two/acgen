@@ -34,7 +34,7 @@ func newBash(c *Command) (b *bash, err error) {
 	return b, nil
 }
 
-var bashCompletionTemplateText = `
+var bashTemplate = template.Must(template.New("bash").Parse(`
 _{{.Name}}()
 {
   local cur="${COMP_WORDS[COMP_CWORD]}"
@@ -52,16 +52,12 @@ _{{.Name}}()
   [[ ${COMPREPLY[0]} == *= ]] && compopt -o nospace
 }
 complete -F _{{.Name}} {{.Name}}
-`[1:]
+`[1:]))
 
 func generateBashCompletion(w io.Writer, c *Command) error {
-	tmpl, err := template.New("bash").Parse(bashCompletionTemplateText)
-	if err != nil {
-		return err
-	}
 	b, err := newBash(c)
 	if err != nil {
 		return err
 	}
-	return tmpl.Execute(w, b)
+	return bashTemplate.Execute(w, b)
 }

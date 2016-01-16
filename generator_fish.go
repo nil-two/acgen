@@ -35,18 +35,14 @@ func newFish(c *Command) (f *fish, err error) {
 	return f, nil
 }
 
-var fishCompletionTemplateText = `
+var fishTemplate = template.Must(template.New("fish").Parse(`
 {{range .Statements}}{{.}}
-{{end}}`[1:]
+{{end}}`[1:]))
 
 func generateFishCompletion(w io.Writer, c *Command) error {
-	tmpl, err := template.New("fish").Parse(fishCompletionTemplateText)
-	if err != nil {
-		return err
-	}
 	f, err := newFish(c)
 	if err != nil {
 		return err
 	}
-	return tmpl.Execute(w, f)
+	return fishTemplate.Execute(w, f)
 }

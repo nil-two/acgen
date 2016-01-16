@@ -53,21 +53,17 @@ func newZsh(c *Command) (z *zsh, err error) {
 	return z, nil
 }
 
-var zshCompletionTemplateText = `
+var zshTemplate = template.Must(template.New("zsh").Parse(`
 #compdef {{.Name}}
 _arguments \{{range .Propaties}}
     {{.}} \{{end}}
     '*:input files:_files'
-`[1:]
+`[1:]))
 
 func generateZshCompletion(w io.Writer, c *Command) error {
-	tmpl, err := template.New("zsh").Parse(zshCompletionTemplateText)
-	if err != nil {
-		return err
-	}
 	z, err := newZsh(c)
 	if err != nil {
 		return err
 	}
-	return tmpl.Execute(w, z)
+	return zshTemplate.Execute(w, z)
 }

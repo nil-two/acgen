@@ -52,7 +52,7 @@ func newYash(c *Command) (y *yash, err error) {
 	return y, nil
 }
 
-var yashCompletionTemplateText = `
+var yashTemplate = template.Must(template.New("yash").Parse(`
 function completion/{{.Name}} {
 	typeset OPTIONS ARGOPT PREFIX
 	OPTIONS=({{range .Opts}}
@@ -68,16 +68,12 @@ function completion/{{.Name}} {
 		;;
 	esac
 }
-`[1:]
+`[1:]))
 
 func generateYashCompletion(w io.Writer, c *Command) error {
-	tmpl, err := template.New("yash").Parse(yashCompletionTemplateText)
-	if err != nil {
-		return err
-	}
 	y, err := newYash(c)
 	if err != nil {
 		return err
 	}
-	return tmpl.Execute(w, y)
+	return yashTemplate.Execute(w, y)
 }
