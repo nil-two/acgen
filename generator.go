@@ -28,6 +28,9 @@ var (
 func RegisterGenerator(name string, g Generator) {
 	generatorsMu.Lock()
 	defer generatorsMu.Unlock()
+	if _, dup := generators[name]; dup {
+		panic("RegisterGenerator called twice for generator " + name)
+	}
 	generators[name] = g
 }
 
