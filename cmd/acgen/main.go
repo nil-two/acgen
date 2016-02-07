@@ -39,7 +39,7 @@ func printVersion() {
 	fmt.Fprintln(os.Stderr, version)
 }
 
-func printErr(err error) {
+func printErr(err interface{}) {
 	fmt.Fprintf(os.Stderr, "%s: %s\n", name, err)
 }
 
@@ -65,11 +65,11 @@ func main() {
 	}
 	switch {
 	case flag.NArg() < 1:
-		printErr(fmt.Errorf("no input file"))
+		printErr("no input file")
 		guideToHelp()
 		os.Exit(2)
 	case *outputType == "":
-		printErr(fmt.Errorf("no specify TYPE"))
+		printErr("no specify TYPE")
 		guideToHelp()
 		os.Exit(2)
 	}
