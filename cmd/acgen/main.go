@@ -44,8 +44,7 @@ func printErr(err interface{}) {
 }
 
 func guideToHelp() {
-	fmt.Fprintf(os.Stderr, "Try '%s --help' for more information.\n",
-		name)
+	fmt.Fprintf(os.Stderr, "Try '%s --help' for more information.\n", name)
 }
 
 func main() {
