@@ -15,7 +15,7 @@ by SOURCE written in YAML.
 
 Options:
   -t, --type=TYPE   output auto-completion for specified TYPE
-                      TYPE=bash|zsh|fish|yash
+                      TYPE=bash|zsh|fish|yash|tcsh
   -h, --help        display this help text and exit
   -v, --version     output version information and exit
 ```
