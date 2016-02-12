@@ -117,6 +117,13 @@ function completion/sed {
 }
 `[1:],
 	},
+	{
+		generator: generateTcshCompletion,
+		command:   sed,
+		output: `
+complete sed 'c/--/(quiet silent expression file)/'
+`[1:],
+	},
 }
 
 func funcName(f interface{}) string {
