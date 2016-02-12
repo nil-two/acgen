@@ -78,6 +78,7 @@ such as `add the script to the ...` for `script`.
 # subset of sed
 ---
 name: sed
+flags:
   - short: ['n']
     long: ['quiet', 'silent']
     description: 'suppress automatic printing of pattern space'
