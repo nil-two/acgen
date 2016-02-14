@@ -2,5 +2,30 @@ language: go
 go:
   - 1.5
 
+env:
+  global:
+    - PATH="$GOPATH/bin:$PATH"
+    - RELEASES_PATH=/tmp/releases
+
 script:
   - go test -v
+
+before_deploy:
+  - go get github.com/laher/goxc
+  - goxc -tasks 'xc archive' -bc 'windows darwin linux' -d "$RELEASES_PATH" -resources-include 'README*'
+
+deploy:
+  provider: releases
+  api_key:
+    secure: O3RqFbWtCOrlWWA21AesYU5Z53v/Mv1gcJ+GBDZyzWAY4gnX4UFIwJvY3Dcm/fOjR8TZE97t50rE0x6L0lFC7vUMuNrWUM84CbdywG7DpQnAzdmOhUNjeFktsA6RJhUug4ySyRnCZYQykPNOeoiz4s9MGDgjlkFp3uq/dfFQfam8e9BsmH9ozeX9oNOuXOIOYS+NNaR0woGVnsaPjUzFIPlz84Prndv06VeUwP0HD9tKCX5Fq3Fj47RhR4B0EwUBnlnj465Yy3BnO7Xl6yv7B/RpmvN+aOyEndK+RHapIIKgV3/QiF9hcW3qkyNf7erO/uVqMlzkjUUaLGincPInwTWVZTLiDbqxusOM0o4edT16Cq84K78z4a4jBCdmwLwGmGZ4D7V80i01d2rFrq33qm1kmg3p5PLKd8pquTW2Rig1Ms6nZN3S96Uj7jIFhtnjhmmfmdhLzAA96DKoPREySPCBAAi/NqAVqoQQAZdCVLVWD0OkvB+IsMlMURlLkjr4sdKiCNk15PZcm8s2mn1LRuOsd2u+OfphAs2KeFZsPKShfhHTx/DIoVyLVs/hmcGABaO5V1UOxlyP1+EJiPJV1dLSCy8ST/dYDIjMbtjnA6gNoMVADbSvPwTaTcdDwBYNQ8W+NxMzk71XIb7nuvy/Xntx8BP6noxs2PyY9KaFomM=
+  file:
+    - $RELEASES_PATH/snapshot/acgen_windows_386.zip
+    - $RELEASES_PATH/snapshot/acgen_windows_amd64.zip
+    - $RELEASES_PATH/snapshot/acgen_darwin_386.zip
+    - $RELEASES_PATH/snapshot/acgen_darwin_amd64.zip
+    - $RELEASES_PATH/snapshot/acgen_linux_386.tar.gz
+    - $RELEASES_PATH/snapshot/acgen_linux_amd64.tar.gz
+    - $RELEASES_PATH/snapshot/acgen_linux_arm.tar.gz
+  on:
+    repo: kusabashira/acgen
+    tags: true
