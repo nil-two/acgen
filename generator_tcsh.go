@@ -16,7 +16,7 @@ type tcsh struct {
 }
 
 func newTcsh(c *Command) (t *tcsh, err error) {
-	opts := make([]string, 0)
+	var opts []string
 	for _, flag := range c.Flags {
 		for _, opt := range flag.Long {
 			opts = append(opts, opt)
