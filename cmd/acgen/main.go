@@ -15,10 +15,10 @@ var (
 	name    = "acgen"
 	version = "0.1.0"
 
-	flag       = pflag.NewFlagSet(name, pflag.ContinueOnError)
-	outputType = flag.StringP("type", "t", "", "")
-	isHelp     = flag.BoolP("help", "h", false, "")
-	isVersion  = flag.BoolP("version", "v", false, "")
+	flagset    = pflag.NewFlagSet(name, pflag.ContinueOnError)
+	outputType = flagset.StringP("type", "t", "", "")
+	isHelp     = flagset.BoolP("help", "h", false, "")
+	isVersion  = flagset.BoolP("version", "v", false, "")
 )
 
 func printUsage() {
@@ -48,8 +48,8 @@ func guideToHelp() {
 }
 
 func main() {
-	flag.SetOutput(ioutil.Discard)
-	if err := flag.Parse(os.Args[1:]); err != nil {
+	flagset.SetOutput(ioutil.Discard)
+	if err := flagset.Parse(os.Args[1:]); err != nil {
 		printErr(err)
 		guideToHelp()
 		os.Exit(2)
@@ -63,7 +63,7 @@ func main() {
 		os.Exit(0)
 	}
 	switch {
-	case flag.NArg() < 1:
+	case flagset.NArg() < 1:
 		printErr("no input file")
 		guideToHelp()
 		os.Exit(2)
@@ -73,27 +73,27 @@ func main() {
 		os.Exit(2)
 	}
 
-	generator, err := acgen.LookGenerator(*outputType)
+	generate, err := acgen.LookGenerator(*outputType)
 	if err != nil {
 		printErr(err)
 		guideToHelp()
 		os.Exit(2)
 	}
-	file := flag.Arg(0)
-	conf, err := ioutil.ReadFile(file)
+
+	source, err := ioutil.ReadFile(flagset.Arg(0))
 	if err != nil {
 		printErr(err)
 		guideToHelp()
 		os.Exit(2)
 	}
 	command := &acgen.Command{}
-	if err = yaml.Unmarshal(conf, command); err != nil {
+	if err = yaml.Unmarshal(source, command); err != nil {
 		printErr(err)
 		guideToHelp()
 		os.Exit(2)
 	}
 
-	if err = generator(os.Stdout, command); err != nil {
+	if err = generate(os.Stdout, command); err != nil {
 		printErr(err)
 		os.Exit(1)
 	}
