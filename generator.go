@@ -6,18 +6,21 @@ import (
 	"sync"
 )
 
+// A Command represents a command which has flags.
 type Command struct {
 	Name  string
 	Flags []*Flag
 }
 
+// A Flag represents the information of a flag.
 type Flag struct {
-	Short       []string
-	Long        []string
-	Arg         string
-	Description string
+	Short       []string // short options
+	Long        []string // long options
+	Arg         string   // argument's name
+	Description string   // help message
 }
 
+// A Generator writes a completion for command to w.
 type Generator func(w io.Writer, c *Command) error
 
 var (
@@ -25,6 +28,8 @@ var (
 	generators   = make(map[string]Generator)
 )
 
+// RegisterGenerator makes a completion generator available
+// by the provided name.
 func RegisterGenerator(name string, g Generator) {
 	generatorsMu.Lock()
 	defer generatorsMu.Unlock()
@@ -34,6 +39,8 @@ func RegisterGenerator(name string, g Generator) {
 	generators[name] = g
 }
 
+// LookGenerator returns a completion generator
+// specified by its completion generator name.
 func LookGenerator(name string) (g Generator, err error) {
 	generatorsMu.Lock()
 	defer generatorsMu.Unlock()
