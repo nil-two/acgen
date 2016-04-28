@@ -54,20 +54,21 @@ func main() {
 		guideToHelp()
 		os.Exit(2)
 	}
-	switch {
-	case *isHelp:
+	if *isHelp {
 		printUsage()
 		os.Exit(0)
-	case *isVersion:
+	}
+	if *isVersion {
 		printVersion()
 		os.Exit(0)
 	}
-	switch {
-	case flagset.NArg() < 1:
+
+	if flagset.NArg() < 1 {
 		printErr("no input file")
 		guideToHelp()
 		os.Exit(2)
-	case *outputType == "":
+	}
+	if *outputType == "" {
 		printErr("no specify TYPE")
 		guideToHelp()
 		os.Exit(2)
