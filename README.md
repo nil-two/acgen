@@ -20,6 +20,19 @@ Options:
   -v, --version     output version information and exit
 ```
 
+Installation
+------------
+
+### compiled binary
+
+See [releases](https://github.com/kusabashira/acgen/releases)
+
+### go get
+
+```
+go get github.com/kusabashira/acgen/cmd/acgen
+```
+
 Source
 ------
 
