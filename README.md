@@ -33,6 +33,38 @@ See [releases](https://github.com/kusabashira/acgen/releases)
 go get github.com/kusabashira/acgen/cmd/acgen
 ```
 
+Options
+-------
+
+### --help
+
+Display a help message.
+
+### --version
+
+Display the version of unpaste.
+
+### -t, --type=TYPE
+
+Specify the target shell.
+
+acgen is currently supporting `bash` `zsh` `fish` `yash` `tcsh`.
+
+```
+$ cat cmd.yml
+name: cmd
+flags:
+  - long: ['source']
+  - long: ['destination']
+
+$ acgen --type=fish cmd.yml
+complete -c 'cmd' -l 'source' -d ''
+complete -c 'cmd' -l 'destination' -d ''
+
+$ acgen --type=tcsh cmd.yml
+complete cmd 'c/--/(source destination)/'
+```
+
 Source
 ------
 
