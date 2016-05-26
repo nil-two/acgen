@@ -42,7 +42,7 @@ Display a help message.
 
 ### --version
 
-Display the version of unpaste.
+Display the version of acgen.
 
 ### -t, --type=TYPE
 
