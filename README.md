@@ -42,7 +42,7 @@ Display a help message.
 
 ### --version
 
-Display the version of acgen.
+Output the version of acgen.
 
 ### -t, --type=TYPE
 
