@@ -60,7 +60,7 @@ _sed()
     --expression=
     --file=
   '
-  case "$cur" in
+  case $cur in
     -*)
       COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
       ;;
