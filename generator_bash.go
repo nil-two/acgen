@@ -41,7 +41,7 @@ _{{.Name}}()
   local opts='{{range .Opts}}
     {{.}}{{end}}
   '
-  case "$cur" in
+  case $cur in
     -*)
       COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
       ;;
