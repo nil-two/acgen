@@ -37,7 +37,7 @@ func newBash(c *Command) (b *bash, err error) {
 var bashTemplate = template.Must(template.New("bash").Parse(`
 _{{.Name}}()
 {
-  local cur="${COMP_WORDS[COMP_CWORD]}"
+  local cur=${COMP_WORDS[COMP_CWORD]}
   local opts='{{range .Opts}}
     {{.}}{{end}}
   '

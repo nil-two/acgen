@@ -53,7 +53,7 @@ var generateTests = []struct {
 		output: `
 _sed()
 {
-  local cur="${COMP_WORDS[COMP_CWORD]}"
+  local cur=${COMP_WORDS[COMP_CWORD]}
   local opts='
     --quiet
     --silent
