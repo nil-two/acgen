@@ -12,8 +12,8 @@ import (
 )
 
 var (
-	cmdName = "acgen"
-	version = "0.1.0"
+	cmdName    = "acgen"
+	cmdVersion = "0.1.0"
 
 	flagset    = pflag.NewFlagSet(cmdName, pflag.ContinueOnError)
 	outputType = flagset.StringP("type", "t", "", "")
@@ -36,7 +36,7 @@ Options:
 }
 
 func printVersion() {
-	fmt.Fprintln(os.Stderr, version)
+	fmt.Fprintln(os.Stderr, cmdVersion)
 }
 
 func printErr(err interface{}) {
