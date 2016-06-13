@@ -12,10 +12,10 @@ import (
 )
 
 var (
-	name    = "acgen"
+	cmdName = "acgen"
 	version = "0.1.0"
 
-	flagset    = pflag.NewFlagSet(name, pflag.ContinueOnError)
+	flagset    = pflag.NewFlagSet(cmdName, pflag.ContinueOnError)
 	outputType = flagset.StringP("type", "t", "", "")
 	isHelp     = flagset.BoolP("help", "h", false, "")
 	isVersion  = flagset.BoolP("version", "v", false, "")
@@ -32,7 +32,7 @@ Options:
                       TYPE=bash|zsh|fish|yash|tcsh
   -h, --help        display this help text and exit
   -v, --version     output version information and exit
-`[1:], name)
+`[1:], cmdName)
 }
 
 func printVersion() {
@@ -40,11 +40,11 @@ func printVersion() {
 }
 
 func printErr(err interface{}) {
-	fmt.Fprintf(os.Stderr, "%s: %s\n", name, err)
+	fmt.Fprintf(os.Stderr, "%s: %s\n", cmdName, err)
 }
 
 func guideToHelp() {
-	fmt.Fprintf(os.Stderr, "Try '%s --help' for more information.\n", name)
+	fmt.Fprintf(os.Stderr, "Try '%s --help' for more information.\n", cmdName)
 }
 
 func main() {
