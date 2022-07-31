@@ -7,7 +7,7 @@ import (
 
 	"gopkg.in/yaml.v2"
 
-	"github.com/kusabashira/acgen"
+	"github.com/nil2nekoni/acgen"
 	"github.com/ogier/pflag"
 )
 
