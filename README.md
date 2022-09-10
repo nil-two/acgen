@@ -23,12 +23,12 @@ Installation
 
 ### compiled binary
 
-See [releases](https://github.com/nil2nekoni/acgen/releases)
+See [releases](https://github.com/nil-two/acgen/releases)
 
 ### go get
 
 ```
-go get github.com/nil2nekoni/acgen/cmd/acgen
+go get github.com/nil-two/acgen/cmd/acgen
 ```
 
 Options
